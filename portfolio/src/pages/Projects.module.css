@@ -1,0 +1,9 @@
+.main { padding: 8rem 2.5rem 6rem; max-width: 1300px; margin: 0 auto; min-height: 100vh; }
+.title { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.035em; margin-bottom: 0.5rem; color: var(--text); }
+.sub { font-size: 14px; color: var(--soft); margin-bottom: 2.5rem; }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2.5rem; }
+.filter { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; background: transparent; border: 1px solid var(--border); color: var(--muted); cursor: pointer; border-radius: 20px; transition: all 0.2s; }
+.filter:hover { color: var(--text); border-color: var(--border2); }
+.filterActive { background: var(--rose-dim); border-color: rgba(244,63,94,0.35); color: var(--rose-lt); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+@media (max-width: 768px) { .main { padding: 6rem 1.25rem 4rem; } }
