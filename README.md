@@ -1,4 +1,4 @@
-# chiemena.dev — Portfolio
+# nathansparks.dev — Portfolio
 
 A dark, techy portfolio built with React + Vite. Features animated project cards, filterable projects page, profile photo section, and a live contact form via EmailJS.
 
