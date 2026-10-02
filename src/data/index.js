@@ -93,7 +93,7 @@ export const projects = [
     kind: 'Own product, waitlist stage',
     summary: 'A rental platform for Nigeria, currently collecting a waitlist and research from renters.',
     stack: ['React', 'Vite', 'FastAPI', 'Supabase'],
-    link: '',
+    link: 'https://ile.nathansparks.dev',
     repo: '',
     image: '',
     problem: 'Finding a place to rent in Nigeria often means unverified listings, agent fees and little protection for tenants.',
