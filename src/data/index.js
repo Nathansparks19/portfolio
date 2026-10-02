@@ -17,7 +17,7 @@ export const profile = {
   available: true,
 }
 
-// group: 'own' | 'client' | 'progress'
+// group: 'own' | 'client'
 // image: put a screenshot in /public/work/ and set e.g. '/work/dyslexpert.png'
 export const projects = [
   // ── Own products ─────────────────────────────
@@ -70,6 +70,22 @@ export const projects = [
     outcome: '',
   },
   {
+    slug: 'bu-timetable',
+    ai: true,
+    group: 'own',
+    featured: true,
+    title: 'BU Timetable System',
+    kind: 'Own product',
+    summary: 'Timetable management for Babcock University, with sign-in by role, AI clash detection, a class swap market and analytics.',
+    stack: ['React', 'Vite', 'Supabase', 'Claude API', 'Vercel'],
+    link: 'https://babcock-timetable-app.vercel.app/login',
+    repo: '',
+    image: '',
+    problem: 'Timetables built by hand produce clashes between rooms, lecturers and student groups that are only found after release.',
+    built: 'An app where each user role sees what it needs. New entries are checked for clashes with help from the Claude API, users can request swaps, and analytics show how the timetable is being used.',
+    outcome: '',
+  },
+  {
     slug: 'ile',
     group: 'own',
     featured: false,
@@ -86,22 +102,6 @@ export const projects = [
   },
 
   // ── Client and community work ────────────────
-  {
-    slug: 'bu-timetable',
-    ai: true,
-    group: 'client',
-    featured: true,
-    title: 'BU Timetable System',
-    kind: 'Built for Babcock University users',
-    summary: 'Timetable management for Babcock University, with sign-in by role, AI clash detection, a class swap market and analytics.',
-    stack: ['React', 'Vite', 'Supabase', 'Claude API', 'Vercel'],
-    link: 'https://babcock-timetable-app.vercel.app/login',
-    repo: '',
-    image: '',
-    problem: 'Timetables built by hand produce clashes between rooms, lecturers and student groups that are only found after release.',
-    built: 'An app where each user role sees what it needs. New entries are checked for clashes with help from the Claude API, users can request swaps, and analytics show how the timetable is being used.',
-    outcome: '',
-  },
   {
     slug: 'styled-by-mena',
     group: 'client',
@@ -140,106 +140,26 @@ export const projects = [
     kind: 'Community project',
     summary: 'An anonymous check-in form for a church teens ministry, so young people can share how they are doing without giving their name.',
     stack: ['HTML', 'JavaScript', 'Supabase'],
-    link: '',
+    link: 'https://ignite-checkin.vercel.app/',
     repo: '',
     image: '',
     problem: 'Teenagers are often unwilling to raise personal struggles face to face.',
     built: 'A lightweight form that stores responses without identifying the sender, so leaders can see what the group needs.',
     outcome: '',
   },
-  {
-    slug: 'shoe-store',
-    group: 'client',
-    featured: false,
-    title: 'Shoe store',
-    kind: 'E-commerce build',
-    summary: 'An online shoe store with a product catalogue, an admin dashboard and a bank-transfer payment flow.',
-    stack: ['React', 'Vite', 'FastAPI', 'Supabase'],
-    link: '',
-    repo: '',
-    image: '',
-    problem: 'Many Nigerian customers prefer to pay by bank transfer, which most store templates do not handle well.',
-    built: 'A storefront plus an admin dashboard for managing products and orders, with a payment flow built around manual bank transfers.',
-    outcome: '',
-  },
-  {
-    slug: 'ai-photoshoot',
-    ai: true,
-    group: 'client',
-    featured: false,
-    title: 'AI Photoshoot',
-    kind: 'AI product build',
-    summary: 'An app that creates styled portrait photos from a user\'s own pictures.',
-    stack: ['React', 'FastAPI', 'Replicate', 'SDXL'],
-    link: '',
-    repo: '',
-    image: '',
-    problem: 'Professional photoshoots are expensive and slow to arrange.',
-    built: 'An image pipeline that generates scenes with SDXL and applies the user\'s face, run through Replicate behind a FastAPI backend.',
-    outcome: '',
-  },
 
-  // ── In development ───────────────────────────
-  {
-    slug: 'kashe',
-    group: 'progress',
-    featured: false,
-    title: 'Kashe',
-    kind: 'In development',
-    summary: 'Financial tools for Nigerian and African small businesses: income and expense tracking, invoicing and a credit history.',
-    stack: ['Fintech', 'Product design'],
-    link: '',
-    repo: '',
-    image: '',
-    problem: 'Small businesses in the informal economy have real financial activity but no records that banks or lenders can see.',
-    built: 'Currently in design and early development.',
-    outcome: '',
-  },
-  {
-    slug: 'harmony-ai-studio',
-    ai: true,
-    group: 'progress',
-    featured: false,
-    title: 'Harmony AI Studio',
-    kind: 'In development',
-    summary: 'A browser-based music studio where AI acts as producer, engineer and vocal coach, for beginners and professionals.',
-    stack: ['Next.js', 'TypeScript', 'FastAPI', 'Supabase'],
-    link: '',
-    repo: '',
-    image: '',
-    problem: 'Making a finished song needs expensive software, equipment and skills most new musicians do not have yet.',
-    built: 'Being built in milestones. The architecture and database are in place.',
-    outcome: '',
-  },
-  {
-    slug: 'dwell',
-    ai: true,
-    group: 'progress',
-    featured: false,
-    title: 'Dwell',
-    kind: 'Concept',
-    summary: 'An AI devotion companion that helps people build a consistent daily devotional habit.',
-    stack: ['React', 'Claude API'],
-    link: '',
-    repo: '',
-    image: '',
-    problem: 'Many people want a daily devotional habit but struggle to keep it going.',
-    built: 'Early concept and prototype.',
-    outcome: '',
-  },
 ]
 
 // Short facts under the hero. Keep these true and current.
 export const highlights = [
-  { value: '10', label: 'products shipped' },
+  { value: String(projects.length), label: 'projects built' },
   { value: '3', label: 'countries with clients: Nigeria, the UK and the US' },
   { value: '2023', label: 'freelancing since' },
 ]
 
 export const groups = [
   { id: 'own', title: 'Own products', intro: 'Products I designed, built and run myself.' },
-  { id: 'client', title: 'Client work and other builds', intro: 'Built for businesses, organisations and communities, plus standalone builds.' },
-  { id: 'progress', title: 'In development', intro: 'Ideas I am building now.' },
+  { id: 'client', title: 'Client and community work', intro: 'Built for businesses, organisations and communities.' },
 ]
 
 // The one study with a measured result. Shown large in the AI section.
@@ -254,7 +174,6 @@ export const study = {
 // Other AI work, shown as a short list under the study.
 export const aiWork = [
   { title: 'AI clash detection', detail: 'Claude API checks new timetable entries for conflicts in the BU Timetable System.', link: '/work/bu-timetable' },
-  { title: 'Image generation pipeline', detail: 'SDXL scene generation with face swapping for AI Photoshoot.', link: '/work/ai-photoshoot' },
   { title: 'AI assistants in live products', detail: 'Server-side Claude API assistants in MindShield and Arise.', link: '/work/mindshield' },
 ]
 
@@ -264,7 +183,7 @@ export const services = [
     audience: 'For founders, businesses and organisations',
     items: [
       { title: 'Web apps and MVPs', desc: 'From idea to a deployed product people can sign in to and use.' },
-      { title: 'Business websites and stores', desc: 'Booking sites, online stores and sites for non-profits, with admin tools you can manage yourself.' },
+      { title: 'Websites for businesses and organisations', desc: 'Booking sites, non-profit sites and internal tools, built so you can manage them yourself.' },
     ],
   },
   {
@@ -272,7 +191,7 @@ export const services = [
     audience: 'For teams with data or a process to improve',
     items: [
       { title: 'Predictive models', desc: 'Classification and risk models built from your data, evaluated honestly on data the model has not seen.' },
-      { title: 'AI features in your product', desc: 'Assistants, image generation and smart checks built into an app, with keys kept server-side.' },
+      { title: 'AI features in your product', desc: 'Assistants and smart checks built into an app, with keys kept server-side.' },
     ],
   },
 ]

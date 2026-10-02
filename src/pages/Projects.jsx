@@ -6,9 +6,8 @@ import styles from './Page.module.css'
 const filters = [
   { id: 'all', label: 'All', test: () => true },
   { id: 'own', label: 'Own products', test: p => p.group === 'own' },
-  { id: 'client', label: 'Client work and builds', test: p => p.group === 'client' },
+  { id: 'client', label: 'Client and community', test: p => p.group === 'client' },
   { id: 'ai', label: 'AI', test: p => p.ai },
-  { id: 'progress', label: 'In development', test: p => p.group === 'progress' },
 ]
 
 export default function Projects() {
