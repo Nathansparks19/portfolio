@@ -1,192 +1,209 @@
-import { useState, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowRight, ArrowUpRight, Send, CheckCircle, XCircle, Loader, MapPin, GitBranch, Mail } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import emailjs from '@emailjs/browser'
-import { projects, services, stack } from '../data/index.js'
+import { ArrowUpRight, Copy, Check, Phone, MessageCircle, Mail } from 'lucide-react'
 import ProjectCard from '../components/ProjectCard.jsx'
+import { profile, projects, highlights, study, aiWork, services, about } from '../data/index.js'
 import styles from './Home.module.css'
 
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID'
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY'
-
-const up = (d=0) => ({ initial:{opacity:0,y:20}, animate:{opacity:1,y:0}, transition:{duration:0.6,delay:d,ease:[0.22,1,0.36,1]} })
-
-function ContactForm() {
-  const ref = useRef()
-  const [status, setStatus] = useState('idle')
-  const [form, setForm] = useState({ name:'', email:'', type:'', message:'' })
-  const set = e => setForm({...form,[e.target.name]:e.target.value})
-  const submit = async e => {
-    e.preventDefault()
-    if (!form.name || !form.email || !form.message) return
-    setStatus('loading')
+function CopyEmail() {
+  const [copied, setCopied] = useState(false)
+  const copy = async () => {
     try {
-      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, ref.current, EMAILJS_PUBLIC_KEY)
-      setStatus('success'); setForm({ name:'', email:'', type:'', message:'' })
-    } catch { setStatus('error') }
+      await navigator.clipboard.writeText(profile.email)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch { /* clipboard blocked: the mailto link still works */ }
   }
   return (
-    <form ref={ref} className={styles.cForm} onSubmit={submit}>
-      <div className={styles.inputRow}>
-        <input name="name" type="text" placeholder="Your name" className={styles.inp} value={form.name} onChange={set} required />
-        <input name="email" type="email" placeholder="Email address" className={styles.inp} value={form.email} onChange={set} required />
-      </div>
-      <input name="project_type" type="text" placeholder="Project type — MVP, web app, AI integration…" className={styles.inp} value={form.type} onChange={set} />
-      <textarea name="message" placeholder="Tell me about your project, timeline, and budget…" className={styles.ta} value={form.message} onChange={set} required />
-      {status==='success' && <div className={`${styles.fMsg} ${styles.fOk}`}><CheckCircle size={13}/>Sent! I'll respond within 24 hours.</div>}
-      {status==='error'   && <div className={`${styles.fMsg} ${styles.fErr}`}><XCircle size={13}/>Something went wrong — email hello@nathansparks.dev</div>}
-      <div>
-        <button type="submit" className="btn-primary" disabled={status==='loading'||status==='success'}>
-          {status==='loading'?<><Loader size={13} className={styles.spin}/>Sending…</>:status==='success'?<><CheckCircle size={13}/>Sent!</>:<><Send size={13}/>Send message</>}
-        </button>
-      </div>
-    </form>
+    <button type="button" className="btn" onClick={copy} aria-live="polite">
+      {copied ? <><Check size={15} aria-hidden /> Copied</> : <><Copy size={15} aria-hidden /> Copy email</>}
+    </button>
   )
 }
 
 export default function Home() {
+  const featured = projects.filter(p => p.featured)
+  const mailto = `mailto:${profile.email}?subject=${encodeURIComponent('Project enquiry')}`
+
   return (
     <main>
-
-      {/* ── HERO ─────────────────────────── */}
-      <div className={styles.heroWrap}>
-
-        {/* LEFT */}
-        <div className={styles.heroLeft}>
-          <motion.div className={styles.badge} {...up(0.1)}>
-            <span className={styles.pulseDot}/> Available for freelance
-          </motion.div>
-
-          <motion.h1 className={styles.h1} {...up(0.2)}>
-            I design,<br/>build &<br/><span className={styles.rose}>ship.</span>
-          </motion.h1>
-
-          <motion.p className={styles.sub} {...up(0.32)}>
-            Fullstack developer and product builder from Lagos, Nigeria.
-            I turn ideas into production-ready web apps — clean code, real users, fast delivery.
-          </motion.p>
-
-          <motion.div className={styles.btns} {...up(0.42)}>
-            <Link to="/projects" className="btn-primary">View my work <ArrowRight size={13}/></Link>
-            <a href="#contact" className="btn-ghost">Get in touch</a>
-          </motion.div>
-
-          <motion.div className={styles.statsRow} {...up(0.5)}>
-            <div className={styles.stat}><span className={styles.statN}>6<em>+</em></span><span className={styles.statL}>Live projects</span></div>
-            <div className={styles.stat}><span className={styles.statN}>3</span><span className={styles.statL}>AI-powered apps</span></div>
-            <div className={styles.stat}><span className={styles.statN}>2<em>+</em></span><span className={styles.statL}>Years building</span></div>
-            <div className={styles.stat}><span className={styles.statN}>∞</span><span className={styles.statL}>Ambition</span></div>
-          </motion.div>
+      {/* ── Hero ───────────────────────────── */}
+      <section className={`wrap ${styles.hero} ${profile.photo ? '' : styles.noPhoto}`}>
+        <div className={styles.heroText}>
+          <h1 className={styles.name}>{profile.name}</h1>
+          <p className={styles.lead}>
+            I build web products and the machine-learning models behind them.
+            Based in Lagos, working with clients anywhere.
+          </p>
+          <div className={styles.actions}>
+            <Link to="/#work" className="btn btn-solid">See my work</Link>
+            <Link to="/#contact" className="btn">Get in touch</Link>
+          </div>
+          {profile.available && (
+            <p className={styles.status}>
+              <span className={styles.dot} aria-hidden /> Taking on new projects
+            </p>
+          )}
+          <dl className={styles.highlights}>
+            {highlights.map(h => (
+              <div key={h.label}>
+                <dt>{h.value}</dt>
+                <dd>{h.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
+        {profile.photo && (
+          <figure className={styles.portrait}>
+            <img src={profile.photo} alt={`Portrait of ${profile.name}`} />
+          </figure>
+        )}
+      </section>
 
-        {/* RIGHT — contained photo card */}
-        <motion.div className={styles.photoCard}
-          initial={{ opacity:0, x:20 }} animate={{ opacity:1, x:0 }}
-          transition={{ duration:0.7, delay:0.2, ease:[0.22,1,0.36,1] }}
-        >
-          <div className={styles.photoFrame}>
-            <img src="/profile.jpeg" alt="Nathan Sparks — Chiemena"
-              onError={e => { e.target.style.display='none' }}
-            />
-            <div className={styles.photoPlaceholder}>
-              <div className={styles.photoInitials}>N</div>
-              <span className={styles.photoHint}>Add profile.jpeg to /public</span>
+      {/* ── Work ───────────────────────────── */}
+      <section id="work" className={styles.section}>
+        <div className="wrap">
+          <header className={styles.sectionHead}>
+            <h2>Selected work</h2>
+            <p>Products I have built and shipped, for myself and for clients.</p>
+          </header>
+          <div className={styles.grid}>
+            {featured.map(p => <ProjectCard key={p.slug} p={p} />)}
+          </div>
+          <p className={styles.more}>
+            <Link to="/work" className="btn">See all {projects.length} projects</Link>
+          </p>
+        </div>
+      </section>
+
+      {/* ── AI & ML ────────────────────────── */}
+      <section id="ai" className={styles.section}>
+        <div className="wrap">
+          <header className={styles.sectionHead}>
+            <h2>AI and machine learning</h2>
+            <p>Research with a measured result, and AI built into products people use.</p>
+          </header>
+
+          <article className={styles.study}>
+            <div>
+              <h3 className={styles.studyTitle}>{study.title}</h3>
+              <p className={styles.studyDetail}>{study.detail}</p>
+              <Link to={study.link} className="text-link">Read case study</Link>
             </div>
-          </div>
-          <div className={styles.nameTag}>
-            <span className={styles.nameTagDot}/>
-            <div className={styles.nameTagText}>
-              Nathan Sparks
-              <span className={styles.nameTagSub}>Lagos, NG · Open to remote</span>
-            </div>
-          </div>
-        </motion.div>
+            <p className={styles.metric}>
+              <span className={styles.metricValue}>{study.metric}</span>
+              <span className={styles.metricLabel}>{study.metricLabel}</span>
+            </p>
+          </article>
 
-      </div>
+          <ul className={styles.aiList}>
+            {aiWork.map(a => (
+              <li key={a.title}>
+                <Link to={a.link} className={styles.aiItem}>
+                  <span className={styles.aiTitle}>{a.title}</span>
+                  <span className={styles.aiDetail}>{a.detail}</span>
+                  <ArrowUpRight size={16} aria-hidden className={styles.aiArrow} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-      <div className="divider" />
-
-      {/* ── ABOUT ────────────────────────── */}
-      <section id="about" className={styles.section}>
-        <div className={styles.sLabel}>01 — about</div>
-        <h2 className={styles.sTitle}>Who I am</h2>
-        <div className={styles.aboutGrid}>
-          <div className={styles.aboutText}>
-            <p>I'm <strong>Chiemena</strong> (Nathan) — a final-year CS student at Babcock University and a product-driven fullstack developer. I build things that actually work: real users, real logic, interfaces that feel good.</p>
-            <p>I serve as <strong>Head of Media</strong> for Ignite Teens, do freelance design and dev, and I'm building towards a portfolio of tools for African markets — starting with <strong>Kashe</strong>, a financial OS for Nigerian SMEs.</p>
-            <p>I've shipped AI apps using the <strong>Claude API</strong>, built ML models at ~98% accuracy, and delivered products for clients in Nigeria and the UK. I move fast, think in systems, and don't stop until something ships.</p>
-          </div>
-          <div className={styles.stackGrid}>
-            {Object.entries(stack).map(([cat, items]) => (
-              <div key={cat}>
-                <div className={styles.stackLbl}>// {cat}</div>
-                <div className={styles.tags}>
-                  {items.map(t => <span key={t} className={`tag ${cat==='frontend'?'accent':cat==='backend'?'accent2':cat==='ai'?'accent3':''}`}>{t}</span>)}
-                </div>
+      {/* ── Services ───────────────────────── */}
+      <section id="services" className={styles.section}>
+        <div className="wrap">
+          <header className={styles.sectionHead}>
+            <h2>Ways to work together</h2>
+            <p>Hire me to build the product, the model, or both.</p>
+          </header>
+          <div className={styles.services}>
+            {services.map(s => (
+              <div key={s.heading}>
+                <h3 className={styles.serviceTitle}>{s.heading}</h3>
+                <p className={styles.audience}>{s.audience}</p>
+                <dl className={styles.offers}>
+                  {s.items.map(i => (
+                    <div key={i.title} className={styles.offer}>
+                      <dt>{i.title}</dt>
+                      <dd>{i.desc}</dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <div className="divider" />
+      {/* ── About ──────────────────────────── */}
+      <section id="about" className={styles.section}>
+        <div className="wrap">
+          <header className={styles.sectionHead}>
+            <h2>About</h2>
+          </header>
+          <div className={styles.about}>
+            <div className={styles.aboutText}>
+              {about.paragraphs.map((t, i) => <p key={i}>{t}</p>)}
 
-      {/* ── PROJECTS ─────────────────────── */}
-      <section className={styles.section}>
-        <div className={styles.sHead}>
-          <div>
-            <div className={styles.sLabel}>02 — projects</div>
-            <h2 className={styles.sTitle} style={{marginBottom:0}}>Featured work</h2>
-          </div>
-          <Link to="/projects" className={styles.viewAll}>All projects <ArrowUpRight size={12}/></Link>
-        </div>
-        <div className={styles.projectsGrid}>
-          {projects.filter(p=>p.featured).map((p,i) => <ProjectCard key={p.id} project={p} index={i}/>)}
-        </div>
-      </section>
-
-      <div className="divider" />
-
-      {/* ── SERVICES ─────────────────────── */}
-      <section id="services" className={styles.section}>
-        <div className={styles.sLabel}>03 — services</div>
-        <h2 className={styles.sTitle}>What I offer</h2>
-        <div className={styles.servicesGrid}>
-          {services.map((s,i) => (
-            <motion.div key={s.title} className={styles.sCard}
-              initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}}
-              viewport={{once:true}} transition={{duration:0.4,delay:i*0.07}}
-              style={{'--sc':s.color}}
-            >
-              <div className={styles.sNum}>0{i+1}</div>
-              <h3 className={styles.sName}>{s.title}</h3>
-              <p className={styles.sDesc}>{s.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      <div className="divider" />
-
-      {/* ── CONTACT ──────────────────────── */}
-      <section id="contact" className={styles.section}>
-        <div className={styles.sLabel}>04 — contact</div>
-        <h2 className={styles.sTitle}>Let's build<br/>something.</h2>
-        <div className={styles.contactGrid}>
-          <div>
-            <p className={styles.contactSub}>Open to freelance projects, collaborations, and interesting problems. I usually respond within 24 hours.</p>
-            <div className={styles.cLinks}>
-              <a href="https://github.com/Nathansparks19" target="_blank" rel="noopener noreferrer" className={styles.cLink}><GitBranch size={13} className={styles.cIcon}/>github.com/Nathansparks19</a>
-              <a href="mailto:hello@nathansparks.dev" className={styles.cLink}><Mail size={13} className={styles.cIcon}/>hello@nathansparks.dev</a>
-              <div className={styles.cLink}><MapPin size={13} className={styles.cIcon}/>Lagos, Nigeria — available remotely</div>
+              <h3 className={styles.subhead}>Experience</h3>
+              <ul className={styles.experience}>
+                {about.experience.map(e => (
+                  <li key={e.role}>
+                    <span className={styles.expRole}>{e.role}</span>
+                    <span className={styles.expOrg}>{e.org}</span>
+                    <span className={styles.expYears}>{e.years}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
+            <dl className={styles.facts}>
+              {about.facts.map(f => (
+                <div key={f.label}>
+                  <dt>{f.label}</dt>
+                  <dd>{f.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
-          <ContactForm/>
         </div>
       </section>
 
+      {/* ── Contact ────────────────────────── */}
+      <section id="contact" className={`${styles.section} ${styles.contact}`}>
+        <div className="wrap">
+          <h2 className={styles.contactTitle}>Have a project or a dataset in mind?</h2>
+          <p className={styles.contactLead}>
+            Tell me what you are building and when you need it. I reply to every message within two working days.
+          </p>
+          <div className={styles.channels}>
+            <a href={mailto} className={styles.channel}>
+              <Mail size={20} aria-hidden />
+              <span className={styles.channelLabel}>Email</span>
+              <span className={styles.channelValue}>{profile.email}</span>
+            </a>
+            {profile.whatsapp && (
+              <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" className={styles.channel}>
+                <MessageCircle size={20} aria-hidden />
+                <span className={styles.channelLabel}>WhatsApp</span>
+                <span className={styles.channelValue}>{profile.phoneDisplay}</span>
+              </a>
+            )}
+            {profile.phone && (
+              <a href={`tel:${profile.phone}`} className={styles.channel}>
+                <Phone size={20} aria-hidden />
+                <span className={styles.channelLabel}>Call</span>
+                <span className={styles.channelValue}>{profile.phoneDisplay}</span>
+              </a>
+            )}
+          </div>
+          <div className={styles.actions}>
+            <CopyEmail />
+            {profile.linkedin && <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn">LinkedIn</a>}
+            {profile.cv && <a href={profile.cv} target="_blank" rel="noopener noreferrer" className="btn">Download CV</a>}
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

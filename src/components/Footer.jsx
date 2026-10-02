@@ -1,19 +1,18 @@
-import { GitBranch, Mail, MapPin } from 'lucide-react'
+import { profile } from '../data/index.js'
 import styles from './Footer.module.css'
+
 export default function Footer() {
+  const year = new Date().getFullYear()
   return (
-    <footer className={styles.f}>
-      <div className={styles.inner}>
-        <div>
-          <div className={styles.logo}><span className={styles.br}>&lt;</span>nathansparks<span className={styles.bl}>.dev</span><span className={styles.br}>/&gt;</span></div>
-          <p className={styles.tag}>Building products that matter.</p>
-        </div>
-        <div className={styles.links}>
-          <a href="https://github.com/Nathansparks19" target="_blank" rel="noopener noreferrer" className={styles.l}><GitBranch size={12}/>GitHub</a>
-          <a href="mailto:hello@nathansparks.dev" className={styles.l}><Mail size={12}/>Email</a>
-          <span className={styles.l} style={{cursor:'default'}}><MapPin size={12}/>Lagos, NG</span>
-        </div>
-        <p className={styles.copy}>© 2025 Nathan Sparks (Chiemena). All rights reserved.</p>
+    <footer className={styles.footer}>
+      <div className={`wrap ${styles.inner}`}>
+        <p>© {year} {profile.name}. {profile.location}.</p>
+        <ul className={styles.links}>
+          <li><a href={`mailto:${profile.email}`}>Email</a></li>
+          {profile.github && <li><a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>}
+          {profile.linkedin && <li><a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>}
+          {profile.cv && <li><a href={profile.cv} target="_blank" rel="noopener noreferrer">CV</a></li>}
+        </ul>
       </div>
     </footer>
   )

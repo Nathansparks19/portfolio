@@ -1,19 +1,84 @@
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 2.5rem; transition: all 0.35s; border-bottom: 1px solid transparent; }
-.scrolled { background: rgba(8,6,8,0.93); backdrop-filter: blur(24px); padding: 0.8rem 2.5rem; border-bottom: 1px solid var(--border); }
-.logo { font-family: var(--mono); font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 1px; }
-.bracket { color: var(--muted); }
-.dot { color: var(--rose); }
-.links { display: flex; align-items: center; gap: 2px; }
-.link { font-family: var(--sans); font-size: 13px; color: var(--soft); padding: 5px 12px; border-radius: 7px; transition: all 0.2s; }
-.link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-.cta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--rose-lt); border: 1px solid rgba(244,63,94,0.3); padding: 6px 14px; border-radius: 7px; margin-left: 6px; transition: all 0.2s; }
-.cta:hover { background: var(--rose-dim); border-color: rgba(244,63,94,0.6); }
-.burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-.b1,.b2 { display: block; width: 20px; height: 1.5px; background: var(--soft); transition: transform 0.25s; }
-.b1o { display: block; width: 20px; height: 1.5px; background: var(--rose); transform: translateY(3.25px) rotate(45deg); }
-.b2o { display: block; width: 20px; height: 1.5px; background: var(--rose); transform: translateY(-3.25px) rotate(-45deg); }
-.mobile { position: absolute; top: 100%; left: 0; right: 0; background: rgba(8,6,8,0.97); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); padding: 0.75rem 1.5rem 1.25rem; display: flex; flex-direction: column; }
-.mobileLink { font-size: 15px; color: var(--soft); padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; transition: color 0.2s; }
-.mobileLink:hover { color: var(--rose-lt); }
-.mNum { color: var(--rose); font-family: var(--mono); font-size: 10px; }
-@media (max-width: 768px) { .nav,.scrolled { padding: 0.9rem 1.25rem; } .links { display: none; } .burger { display: flex; } }
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.name {
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--soft);
+  text-decoration: none;
+  transition: color .15s;
+}
+.link:hover { color: var(--ink); }
+
+.cta {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  transition: background .15s, color .15s;
+}
+.cta:hover { background: var(--ink); color: var(--paper); }
+
+.toggle {
+  display: none;
+  font: 600 15px var(--font);
+  color: var(--ink);
+  background: none;
+  border: 1.5px solid var(--rule);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .toggle { display: block; }
+  .links {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 8px var(--gutter) 20px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .links.open { display: flex; }
+  .links li { width: 100%; }
+  .link, .cta { display: block; padding: 12px 0; font-size: 18px; }
+  .cta { background: none; color: var(--accent); border-radius: 0; }
+  .cta:hover { background: none; color: var(--ink); }
+}

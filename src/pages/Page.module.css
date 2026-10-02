@@ -1,0 +1,98 @@
+.page {
+  padding-top: clamp(40px, 6vw, 72px);
+  padding-bottom: clamp(56px, 8vw, 96px);
+  min-height: 70vh;
+}
+
+.back { font-size: 14px; margin-bottom: 24px; }
+
+.title {
+  font-size: clamp(36px, 5.5vw, 60px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.lead {
+  margin-top: 14px;
+  max-width: 52ch;
+  font-size: clamp(17px, 1.6vw, 19px);
+  line-height: 1.5;
+  color: var(--soft);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
+}
+.filter {
+  font: 500 14px var(--font);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.filter:hover { border-color: var(--accent); }
+.filterOn, .filterOn:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.count { opacity: .65; margin-left: 2px; font-variant-numeric: tabular-nums; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 40px 28px;
+  margin-top: 32px;
+}
+
+.group { margin-top: clamp(40px, 6vw, 64px); }
+.groupHead { margin-bottom: 12px; }
+.groupHead h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; }
+.groupHead p { color: var(--soft); font-size: 15px; margin-top: 2px; }
+
+.list { border-top: 1px solid var(--rule); }
+.list > * + * { border-top: 1px solid var(--rule); }
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 32px;
+  margin-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+.meta > div { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.meta dt { font-size: 13px; color: var(--soft); }
+.meta dd { margin-top: 2px; font-weight: 500; font-size: 15px; }
+
+.shot {
+  margin-top: 32px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.story { margin-top: 40px; max-width: 64ch; }
+.story section + section { margin-top: 28px; }
+.story h2 {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.footerNav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  color: var(--soft);
+  font-size: 15px;
+}
+.footerNav a { color: var(--ink); }

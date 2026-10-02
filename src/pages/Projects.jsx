@@ -1,52 +1,50 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { projects } from '../data/index.js'
+import { useEffect, useState } from 'react'
 import ProjectCard from '../components/ProjectCard.jsx'
-import styles from './Projects.module.css'
+import { projects, profile } from '../data/index.js'
+import styles from './Page.module.css'
 
-const categories = ['all', 'fullstack app', 'product', 'freelance', 'tool', 'concept']
+const filters = [
+  { id: 'all', label: 'All', test: () => true },
+  { id: 'own', label: 'Own products', test: p => p.group === 'own' },
+  { id: 'client', label: 'Client work and builds', test: p => p.group === 'client' },
+  { id: 'ai', label: 'AI', test: p => p.ai },
+  { id: 'progress', label: 'In development', test: p => p.group === 'progress' },
+]
 
 export default function Projects() {
   const [active, setActive] = useState('all')
+  useEffect(() => { document.title = `All work | ${profile.name}` }, [])
 
-  const filtered = active === 'all'
-    ? projects
-    : projects.filter(p => p.category === active)
+  const current = filters.find(f => f.id === active)
+  const items = projects.filter(current.test)
 
   return (
-    <main className={styles.main}>
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="section-label">projects</div>
-        <h1 className={styles.title}>All work</h1>
-        <p className={styles.sub}>A collection of products, tools, and experiments I've shipped.</p>
-      </motion.div>
+    <main className={`wrap ${styles.page}`}>
+      <h1 className={styles.title}>All work</h1>
+      <p className={styles.lead}>
+        Everything I have built, from my own products to work for clients and communities. Each one has a short case study.
+      </p>
 
-      <motion.div
-        className={styles.filters}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        {categories.map(c => (
-          <button
-            key={c}
-            className={`${styles.filter} ${active === c ? styles.filterActive : ''}`}
-            onClick={() => setActive(c)}
-          >
-            {c}
-          </button>
-        ))}
-      </motion.div>
+      <div className={styles.filters} role="group" aria-label="Filter projects">
+        {filters.map(f => {
+          const count = projects.filter(f.test).length
+          return (
+            <button
+              key={f.id}
+              type="button"
+              className={`${styles.filter} ${active === f.id ? styles.filterOn : ''}`}
+              aria-pressed={active === f.id}
+              onClick={() => setActive(f.id)}
+            >
+              {f.label} <span className={styles.count}>{count}</span>
+            </button>
+          )
+        })}
+      </div>
 
-      <motion.div className={styles.grid} layout>
-        {filtered.map((p, i) => (
-          <ProjectCard key={p.id} project={p} index={i} />
-        ))}
-      </motion.div>
+      <div className={styles.grid}>
+        {items.map(p => <ProjectCard key={p.slug} p={p} />)}
+      </div>
     </main>
   )
 }
