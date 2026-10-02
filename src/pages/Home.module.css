@@ -138,6 +138,7 @@
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
 }
+.study + .study { border-top: 0; }
 .studyTitle {
   font-size: 22px;
   font-weight: 700;
@@ -162,7 +163,7 @@
   color: var(--accent);
   font-variant-numeric: tabular-nums lining-nums;
 }
-.metricLabel { margin-top: 6px; font-size: 14px; color: var(--soft); }
+.metricLabel { margin-top: 6px; font-size: 14px; color: var(--soft); max-width: 16ch; }
 
 .aiList { list-style: none; }
 .aiList li { border-bottom: 1px solid var(--rule); }

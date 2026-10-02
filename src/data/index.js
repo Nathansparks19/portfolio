@@ -86,6 +86,22 @@ export const projects = [
     outcome: '',
   },
   {
+    slug: 'lagos-fair-rent',
+    ai: true,
+    group: 'own',
+    featured: false,
+    title: 'Lagos Fair Rent',
+    kind: 'Own product, machine learning',
+    summary: 'Describe a home in Lagos and see what similar homes usually cost, with a verdict on whether an asking rent is fair.',
+    stack: ['Python', 'scikit-learn', 'FastAPI', 'Render'],
+    link: 'https://lagos-fair-rent.onrender.com',
+    repo: 'https://github.com/Nathansparks19/lagos-fair-rent',
+    image: '',
+    problem: 'Renters in Lagos have no reference point for whether an asking rent is reasonable. Prices are set by agents, and a fake or inflated listing looks the same as a fair one.',
+    built: 'I cleaned 53,070 raw listings down to 49,279, recovering 3,939 missing bedroom counts from listing titles and catching two cleaning rules that were removing real homes. I then compared four models against simple baselines on 9,856 unseen listings and deployed the best as a public API with a demo page.',
+    outcome: 'Median error fell from 44% for a simple bedroom-based estimate to 23%. Instead of one number, the tool gives a fair-rent range, and the ranges are calibrated: 48.7% of real rents fell in the middle range (target 50%) and 78.6% in the wide range (target 80%). It is trained on 2022 listings, so prices are 2022 levels until it is retrained on current data.',
+  },
+  {
     slug: 'ile',
     group: 'own',
     featured: false,
@@ -162,17 +178,27 @@ export const groups = [
   { id: 'client', title: 'Client and community work', intro: 'Built for businesses, organisations and communities.' },
 ]
 
-// The one study with a measured result. Shown large in the AI section.
-export const study = {
-  title: 'Early dyslexia detection with a stacked ensemble',
-  detail: 'My undergraduate final-year research. Random Forest, XGBoost and Extra Trees stacked into one classifier, trained on 3,644 participants, and now running inside DysleXpert.',
-  metric: '97.83%',
-  metricLabel: 'accuracy',
-  link: '/work/dyslexpert',
-}
+// Studies with a measured result, shown large in the AI section.
+export const studies = [
+  {
+    title: 'Early dyslexia detection with a stacked ensemble',
+    detail: 'My undergraduate final-year research. Random Forest, XGBoost and Extra Trees stacked into one classifier, trained on 3,644 participants, and now running inside DysleXpert.',
+    metric: '97.83%',
+    metricLabel: 'accuracy',
+    link: '/work/dyslexpert',
+  },
+  {
+    title: 'Is this rent fair? Lagos rent estimation',
+    detail: 'Gradient boosting trained on 49,279 cleaned Lagos rent listings. It gives a fair-rent range instead of one number, and the ranges are calibrated: the middle range held 48.7% of real rents against a 50% target.',
+    metric: '1.9×',
+    metricLabel: 'smaller error than a simple estimate (44% → 23%)',
+    link: '/work/lagos-fair-rent',
+  },
+]
 
 // Other AI work, shown as a short list under the study.
 export const aiWork = [
+  { title: 'Machine learning API in production', detail: 'The Lagos rent model runs as a public FastAPI service with input checks and honest uncertainty.', link: '/work/lagos-fair-rent' },
   { title: 'AI clash detection', detail: 'Claude API checks new timetable entries for conflicts in the BU Timetable System.', link: '/work/bu-timetable' },
   { title: 'AI assistants in live products', detail: 'Server-side Claude API assistants in MindShield and Arise.', link: '/work/mindshield' },
 ]

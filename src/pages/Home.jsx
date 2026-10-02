@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Copy, Check, Phone, MessageCircle, Mail } from 'lucide-react'
 import ProjectCard from '../components/ProjectCard.jsx'
-import { profile, projects, highlights, study, aiWork, services, about } from '../data/index.js'
+import { profile, projects, highlights, studies, aiWork, services, about } from '../data/index.js'
 import styles from './Home.module.css'
 
 function CopyEmail() {
@@ -84,17 +84,19 @@ export default function Home() {
             <p>Research with a measured result, and AI built into products people use.</p>
           </header>
 
-          <article className={styles.study}>
-            <div>
-              <h3 className={styles.studyTitle}>{study.title}</h3>
-              <p className={styles.studyDetail}>{study.detail}</p>
-              <Link to={study.link} className="text-link">Read case study</Link>
-            </div>
-            <p className={styles.metric}>
-              <span className={styles.metricValue}>{study.metric}</span>
-              <span className={styles.metricLabel}>{study.metricLabel}</span>
-            </p>
-          </article>
+          {studies.map(study => (
+            <article key={study.title} className={styles.study}>
+              <div>
+                <h3 className={styles.studyTitle}>{study.title}</h3>
+                <p className={styles.studyDetail}>{study.detail}</p>
+                <Link to={study.link} className="text-link">Read case study</Link>
+              </div>
+              <p className={styles.metric}>
+                <span className={styles.metricValue}>{study.metric}</span>
+                <span className={styles.metricLabel}>{study.metricLabel}</span>
+              </p>
+            </article>
+          ))}
 
           <ul className={styles.aiList}>
             {aiWork.map(a => (
